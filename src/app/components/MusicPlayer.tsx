@@ -230,9 +230,18 @@ export const MusicPlayer = () => {
 
   const playNext = () => {
     if (!playerRef.current || !isReady) return;
+    const ids = playerRef.current.getPlaylist?.() ?? [];
+    const index = playerRef.current.getPlaylistIndex?.() ?? 0;
+
     trackEvent("audio_next", {
       track_index: currentIndex + 1,
     });
+
+    if (ids.length > 0 && index >= ids.length - 1) {
+      playerRef.current.playVideoAt?.(0);
+      return;
+    }
+
     playerRef.current.nextVideo?.();
   };
 
