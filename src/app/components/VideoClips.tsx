@@ -1,13 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { ExternalLink, Music2, Youtube } from "lucide-react";
+import { Music2, Youtube } from "lucide-react";
+import { LinkButton } from "./ui/Button";
+import { Section } from "./ui/Section";
 
 const youtubePlaylistId = import.meta.env.VITE_YOUTUBE_CLIPS_PLAYLIST_ID ?? "";
-const youtubeChannelUrl = import.meta.env.VITE_YOUTUBE_CHANNEL_URL ?? "https://www.youtube.com/";
 const youtubeSubscribeUrl = "https://www.youtube.com/channel/UCi0EbpfqSkahDCbHJWR0oPg";
-
-const youtubePlaylistUrl = youtubePlaylistId
-  ? `https://www.youtube.com/playlist?list=${youtubePlaylistId}`
-  : youtubeChannelUrl;
 
 declare global {
   interface Window {
@@ -123,27 +120,28 @@ export const VideoClips = () => {
   }, [loaderElementId, youtubePlaylistId, isSectionVisible]);
 
   return (
-    <section ref={sectionRef} id="videos" className="py-24 px-6 bg-[#faf9f6]">
-      <div className="max-w-7xl mx-auto">
+    <Section id="videos" soft>
+      <div ref={sectionRef}>
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="space-y-4">
             <div className="inline-flex items-center gap-2 text-blue-500 font-bold uppercase tracking-wider text-sm">
               <Music2 className="w-4 h-4" />
               <span>Музичні пригоди</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight">Анімація</h2>
-            <p className="text-gray-600 max-w-xl text-lg font-medium">
+            <h2 className="section-title">Анімація</h2>
+            <p className="section-desc max-w-xl">
               Дивіться наші відео
             </p>
           </div>
-          <a
+          <LinkButton
             href={youtubeSubscribeUrl}
+            variant="primary"
             target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-3 px-6 py-3 bg-red-600 text-white rounded-2xl font-bold hover:bg-red-700 transition-all shadow-lg shadow-red-100"
+            rel="noopener noreferrer"
+            className="gap-3 px-6 py-3"
           >
             <Youtube className="w-6 h-6 fill-white" /> Підписатись на канал
-          </a>
+          </LinkButton>
         </div>
 
         {youtubePlaylistId ? (
@@ -178,16 +176,6 @@ export const VideoClips = () => {
               </div>
             )}
 
-            <div className="bg-white p-5 flex items-center justify-end rounded-2xl border border-gray-100">
-              <a
-                href={youtubePlaylistUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-black text-blue-600 hover:text-blue-700"
-              >
-                Відкрити на YouTube <ExternalLink className="w-4 h-4" />
-              </a>
-            </div>
           </div>
         ) : (
           <div className="rounded-[2rem] border-2 border-dashed border-gray-300 bg-white p-8 text-gray-700">
@@ -195,6 +183,6 @@ export const VideoClips = () => {
           </div>
         )}
       </div>
-    </section>
+    </Section>
   );
 };

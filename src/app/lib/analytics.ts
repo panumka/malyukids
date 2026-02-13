@@ -39,6 +39,23 @@ const setConsentMode = (state: ConsentState) => {
   });
 };
 
+const safeGetConsent = (): ConsentState | null => {
+  try {
+    const stored = localStorage.getItem(CONSENT_STORAGE_KEY);
+    return stored === "granted" || stored === "denied" ? stored : null;
+  } catch {
+    return null;
+  }
+};
+
+const safeSetConsent = (state: ConsentState) => {
+  try {
+    localStorage.setItem(CONSENT_STORAGE_KEY, state);
+  } catch {
+    // Ignore storage errors (e.g. strict privacy mode).
+  }
+};
+
 export const bootstrapAnalyticsConsent = () => {
   ensureGtagShim();
   window.gtag?.("consent", "default", {
@@ -48,7 +65,7 @@ export const bootstrapAnalyticsConsent = () => {
     ad_personalization: "denied",
   });
 
-  const storedConsent = localStorage.getItem(CONSENT_STORAGE_KEY);
+  const storedConsent = safeGetConsent();
   if (storedConsent === "granted") {
     grantAnalyticsConsent();
   } else if (storedConsent === "denied") {
@@ -57,7 +74,7 @@ export const bootstrapAnalyticsConsent = () => {
 };
 
 export const grantAnalyticsConsent = () => {
-  localStorage.setItem(CONSENT_STORAGE_KEY, "granted");
+  safeSetConsent("granted");
   ensureGtagShim();
   loadGaScript();
   window.gtag?.("js", new Date());
@@ -68,14 +85,11 @@ export const grantAnalyticsConsent = () => {
 };
 
 export const denyAnalyticsConsent = () => {
-  localStorage.setItem(CONSENT_STORAGE_KEY, "denied");
+  safeSetConsent("denied");
   setConsentMode("denied");
 };
 
-export const getStoredAnalyticsConsent = (): ConsentState | null => {
-  const stored = localStorage.getItem(CONSENT_STORAGE_KEY);
-  return stored === "granted" || stored === "denied" ? stored : null;
-};
+export const getStoredAnalyticsConsent = (): ConsentState | null => safeGetConsent();
 
 const hasAnalyticsConsent = () => getStoredAnalyticsConsent() === "granted";
 

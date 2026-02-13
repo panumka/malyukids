@@ -1,6 +1,8 @@
 import React from "react";
 import { Music2, Play, Youtube, Music } from "lucide-react";
 import { trackEvent } from "../lib/analytics";
+import { LinkButton } from "./ui/Button";
+import { Section } from "./ui/Section";
 
 const PLATFORMS = [
   {
@@ -31,33 +33,33 @@ const PLATFORMS = [
 
 export const StreamingPlatforms = () => {
   return (
-    <section id="platforms" className="py-24 px-6 bg-white">
-      <div className="max-w-7xl mx-auto">
+    <Section id="platforms">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl font-black text-gray-900">Слухайте де вам зручно</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg">Наша музика доступна на всіх популярних стрімінгових майданчиках світу.</p>
+          <h2 className="section-title">Слухайте де вам зручно</h2>
+          <p className="section-desc max-w-2xl mx-auto">Наша музика доступна на всіх популярних стрімінгових майданчиках світу.</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {PLATFORMS.map((platform) => (
-            <a 
+            <LinkButton
               key={platform.name}
               href={platform.link}
+              variant="cardLink"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               onClick={() =>
                 trackEvent("platform_click", {
                   platform: platform.name,
                   destination: platform.link,
                 })
               }
-              className={`flex flex-col items-center gap-6 p-10 rounded-[2.5rem] border-4 border-gray-50 transition-all duration-300 transform hover:-translate-y-2 group ${platform.color}`}
+              className={`flex flex-col items-center gap-6 p-10 rounded-[2.5rem] border-4 border-gray-50 group ${platform.color}`}
             >
               <div className="p-5 bg-gray-50 rounded-3xl group-hover:bg-transparent transition-colors">
                 {platform.icon}
               </div>
               <span className="text-xl font-black text-gray-900">{platform.name}</span>
-            </a>
+            </LinkButton>
           ))}
         </div>
         
@@ -65,7 +67,6 @@ export const StreamingPlatforms = () => {
            {/* Add more tiny icons or logos if needed */}
            <div className="text-sm font-black uppercase tracking-widest text-gray-400">Та ще на 50+ платформах</div>
         </div>
-      </div>
-    </section>
+    </Section>
   );
 };

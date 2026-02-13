@@ -2,6 +2,11 @@
 
 :root {
   --font-size: 16px;
+  --brand-red: #fc3c44;
+  --brand-blue: #3b82f6;
+  --surface-soft: #faf9f6;
+  --radius-pill: 9999px;
+  --radius-card: 2rem;
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
   --card: #ffffff;
@@ -177,5 +182,94 @@
     font-size: var(--text-base);
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
+  }
+}
+
+@layer components {
+  .container-shell {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .section-shell {
+    @apply py-24 px-6;
+  }
+
+  .section-shell-soft {
+    background-color: var(--surface-soft);
+  }
+
+  .section-title {
+    @apply text-4xl md:text-5xl font-black text-gray-900 leading-tight;
+  }
+
+  .section-desc {
+    @apply text-gray-600 text-lg font-medium;
+  }
+
+  .btn-primary-pill {
+    @apply inline-flex items-center justify-center font-bold text-white transition-all;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2;
+    background-color: var(--brand-red);
+    border-radius: var(--radius-pill);
+  }
+
+  .btn-primary-pill:hover {
+    @apply shadow-lg;
+  }
+
+  .btn-outline-pill {
+    @apply inline-flex items-center justify-center border-4 border-gray-200 text-gray-700 font-bold transition-all;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
+    border-radius: var(--radius-pill);
+  }
+
+  .btn-outline-pill:hover {
+    @apply bg-white;
+  }
+
+  .card-shell {
+    @apply border-2 border-gray-100 bg-white shadow-sm;
+    border-radius: var(--radius-card);
+  }
+
+  .card-soft {
+    @apply rounded-3xl border border-gray-100 bg-gray-50;
+  }
+
+  .nav-link {
+    @apply font-bold text-gray-600 transition-colors rounded-md;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500;
+  }
+
+  .nav-link:hover {
+    @apply text-blue-500;
+  }
+
+  .icon-link {
+    @apply inline-flex items-center justify-center transition-all;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  }
+
+  .icon-control-btn {
+    @apply bg-white border border-gray-200 text-gray-700 grid place-items-center disabled:opacity-40;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
+  }
+
+  .card-link {
+    @apply transition-all duration-300 transform;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
+  }
+
+  .card-link:hover {
+    @apply -translate-y-2;
+  }
+
+  .muted-link {
+    @apply rounded-md transition-colors;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400;
+  }
+
+  .muted-link:hover {
+    @apply text-gray-600;
   }
 }

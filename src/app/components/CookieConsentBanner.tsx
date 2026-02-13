@@ -4,6 +4,7 @@ import {
   getStoredAnalyticsConsent,
   grantAnalyticsConsent,
 } from "../lib/analytics";
+import { ActionButton } from "./ui/Button";
 
 export const CookieConsentBanner = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -24,26 +25,28 @@ export const CookieConsentBanner = () => {
         Ми використовуємо аналітичні cookie (Google Analytics), щоб розуміти, як покращувати сайт.
       </p>
       <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:justify-end">
-        <button
-          type="button"
+        <ActionButton
+          variant="muted"
           onClick={() => {
             denyAnalyticsConsent();
             setIsVisible(false);
           }}
+          type="button"
           className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 font-bold"
         >
           Відхилити
-        </button>
-        <button
-          type="button"
+        </ActionButton>
+        <ActionButton
+          variant="primary"
           onClick={() => {
             grantAnalyticsConsent();
             setIsVisible(false);
           }}
-          className="px-4 py-2 rounded-xl bg-[#FC3C44] text-white font-bold"
+          type="button"
+          className="px-4 py-2 rounded-xl"
         >
           Прийняти
-        </button>
+        </ActionButton>
       </div>
     </div>
   );

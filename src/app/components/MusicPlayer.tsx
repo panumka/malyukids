@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Disc,
-  ExternalLink,
   Pause,
   Play,
   SkipBack,
@@ -9,9 +8,14 @@ import {
   Square,
 } from "lucide-react";
 import { trackEvent } from "../lib/analytics";
+import { ActionButton } from "./ui/Button";
+import { Section } from "./ui/Section";
 
-const youtubeAudioPlaylistId = import.meta.env.VITE_YOUTUBE_AUDIO_PLAYLIST_ID ?? "";
-const youtubeChannelUrl = import.meta.env.VITE_YOUTUBE_CHANNEL_URL ?? "https://www.youtube.com/";
+const youtubeAudioPlaylistId =
+  import.meta.env.VITE_YOUTUBE_AUDIO_PLAYLIST_ID ?? "";
+const youtubeChannelUrl =
+  import.meta.env.VITE_YOUTUBE_CHANNEL_URL ??
+  "https://music.youtube.com/channel/UCLYln8IsH0RxL4ahcCr-BOw";
 
 const extractChannelId = (value: string): string => {
   const trimmed = value.trim();
@@ -28,10 +32,6 @@ const extractChannelId = (value: string): string => {
 const youtubeChannelId = extractChannelId(youtubeChannelUrl);
 const youtubeUploadsPlaylistId = youtubeChannelId ? `UU${youtubeChannelId.slice(2)}` : "";
 const resolvedYoutubeAudioPlaylistId = youtubeAudioPlaylistId || youtubeUploadsPlaylistId;
-
-const youtubeAudioPlaylistUrl = resolvedYoutubeAudioPlaylistId
-  ? `https://www.youtube.com/playlist?list=${resolvedYoutubeAudioPlaylistId}`
-  : youtubeChannelUrl;
 
 declare global {
   interface Window {
@@ -243,38 +243,22 @@ export const MusicPlayer = () => {
   };
 
   return (
-    <section ref={sectionRef} id="music" className="py-24 px-6 bg-white">
-      <div className="max-w-7xl mx-auto">
+    <Section id="music" className="scroll-mt-24 md:scroll-mt-28">
+      <div ref={sectionRef}>
         <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8">
           <div className="space-y-4">
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight">Музика</h2>
-            <p className="text-gray-600 max-w-2xl text-lg font-medium">
+            <h2 className="section-title">Музика</h2>
+            <p className="section-desc max-w-2xl">
               Слухайте наші пісні у плеєрі прямо на сайті
             </p>
           </div>
         </div>
 
         {resolvedYoutubeAudioPlaylistId ? (
-          <article className="rounded-[2rem] border-2 border-gray-100 bg-white p-6 shadow-sm">
+          <article className="card-shell p-6">
             <div id={loaderElementId} className="hidden" aria-hidden="true" />
 
-            <div className="flex justify-end mb-6">
-              <a
-                href={youtubeAudioPlaylistUrl}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() =>
-                  trackEvent("open_youtube_playlist", {
-                    source: "music_player",
-                  })
-                }
-                className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700"
-              >
-                Відкрити на YouTube <ExternalLink className="w-4 h-4" />
-              </a>
-            </div>
-
-            <div className="rounded-3xl border border-gray-100 bg-gray-50 p-4 md:p-6 flex flex-col sm:flex-row items-center gap-5">
+            <div className="card-soft p-4 md:p-6 flex flex-col sm:flex-row items-center gap-5">
               <div className="w-24 h-24 rounded-2xl overflow-hidden bg-white border border-gray-100 shrink-0">
                 {coverUrl ? (
                   <img src={coverUrl} alt={currentTitle} className="w-full h-full object-cover" loading="lazy" />
@@ -296,42 +280,42 @@ export const MusicPlayer = () => {
               </div>
 
               <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-                <button
-                  type="button"
+                <ActionButton
+                  variant="iconControl"
                   onClick={playPrevious}
                   disabled={!isReady}
-                  className="w-11 h-11 rounded-full bg-white border border-gray-200 text-gray-700 grid place-items-center disabled:opacity-40"
+                  className="w-11 h-11 rounded-full"
                   aria-label="Попередній трек"
                 >
                   <SkipBack className="w-5 h-5" />
-                </button>
-                <button
-                  type="button"
+                </ActionButton>
+                <ActionButton
+                  variant="primary"
                   onClick={togglePlayPause}
                   disabled={!isReady}
-                  className="w-12 h-12 rounded-full bg-red-600 text-white grid place-items-center disabled:opacity-40"
+                  className="w-12 h-12 rounded-full bg-red-600 text-white grid place-items-center disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2"
                   aria-label={isPlaying ? "Пауза" : "Відтворити"}
                 >
                   {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-0.5" />}
-                </button>
-                <button
-                  type="button"
+                </ActionButton>
+                <ActionButton
+                  variant="iconControl"
                   onClick={stopPlayback}
                   disabled={!isReady}
-                  className="w-11 h-11 rounded-full bg-white border border-gray-200 text-gray-700 grid place-items-center disabled:opacity-40"
+                  className="w-11 h-11 rounded-full"
                   aria-label="Зупинити"
                 >
                   <Square className="w-4 h-4 fill-current" />
-                </button>
-                <button
-                  type="button"
+                </ActionButton>
+                <ActionButton
+                  variant="iconControl"
                   onClick={playNext}
                   disabled={!isReady}
-                  className="w-11 h-11 rounded-full bg-white border border-gray-200 text-gray-700 grid place-items-center disabled:opacity-40"
+                  className="w-11 h-11 rounded-full"
                   aria-label="Наступний трек"
                 >
                   <SkipForward className="w-5 h-5" />
-                </button>
+                </ActionButton>
               </div>
             </div>
           </article>
@@ -341,6 +325,6 @@ export const MusicPlayer = () => {
           </div>
         )}
       </div>
-    </section>
+    </Section>
   );
 };
