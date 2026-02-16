@@ -125,6 +125,27 @@
 }
 
 @layer base {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }
@@ -182,6 +203,13 @@
     font-size: var(--text-base);
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
+  }
+
+  p,
+  li,
+  a,
+  span {
+    overflow-wrap: anywhere;
   }
 }
 

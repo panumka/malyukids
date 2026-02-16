@@ -17,7 +17,7 @@ export const Navbar = () => {
           aria-label="Перейти на початок сторінки"
           className="flex items-center gap-2 md:gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         >
-          <img src={logo} alt="Логотип MalyuKiDs" className="h-8 w-auto md:h-10" />
+          <img src={logo} alt="Логотип MalyuKiDs" className="h-10 w-auto md:h-12" />
           <span className="text-2xl font-black tracking-tight text-gray-900 hidden sm:block">
             MalyuKiDs
           </span>
