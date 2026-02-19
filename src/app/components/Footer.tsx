@@ -17,7 +17,7 @@ export const Footer = () => {
               <span className="text-3xl font-black tracking-tight">MalyuKiDs</span>
             </div>
             <p className="text-gray-500 text-lg leading-relaxed max-w-md font-medium">
-              Яскравий світ музики та анімації для найменших. Навчаємо, розважаємо та даруємо посмішки кожній дитині.
+              Яскравий світ музики та анімації для дітей та батьків. Навчаємо, розважаємо та даруємо посмішки кожному.
             </p>
             <div className="flex gap-4">
               <LinkButton
